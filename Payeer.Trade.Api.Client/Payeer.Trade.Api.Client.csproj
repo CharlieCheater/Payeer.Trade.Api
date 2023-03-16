@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Payeer.Trade.Api.Models\Payeer.Trade.Api.Models.csproj" />
+  </ItemGroup>
+
 </Project>
