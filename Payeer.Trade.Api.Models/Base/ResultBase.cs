@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Payeer.Trade.Api.Models.General
+namespace Payeer.Trade.Api.Models.Base
 {
-    public class Result<T>
+    public class ResultBase
     {
         public bool Success { get; set; }
-        public T? Response { get; set; }
+        public ErrorResult Error { get; set; }
     }
 }

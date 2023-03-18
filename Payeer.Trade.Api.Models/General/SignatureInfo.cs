@@ -1,14 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
-namespace Payeer.Trade.Api.Models.General
+namespace Payeer.Trade.Api.Models.General;
+
+public class SignatureInfo
 {
-    public class SignatureInfo
-    {
-        [JsonPropertyName("ts")]
-        public long Timestamp { get; set; }
-        [JsonIgnore]
-        public string JsonTimestamp { get; set; }
-        [JsonIgnore]
-        public string Signature { get; set; }
-    }
+    [JsonProperty("ts")]
+    public long Timestamp { get; set; }
+    [JsonIgnore]
+    public string JsonTimestamp { get; set; }
+    [JsonIgnore]
+    public string Signature { get; set; }
 }
