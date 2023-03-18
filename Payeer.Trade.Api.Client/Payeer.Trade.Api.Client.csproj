@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Payeer.Trade.Api.Domain\Payeer.Trade.Api.Domain.csproj" />
     <ProjectReference Include="..\Payeer.Trade.Api.Models\Payeer.Trade.Api.Models.csproj" />
   </ItemGroup>
 

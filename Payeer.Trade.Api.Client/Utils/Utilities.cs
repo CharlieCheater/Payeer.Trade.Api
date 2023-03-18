@@ -5,20 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Payeer.Trade.Api.Models.Enums;
 
-namespace Payeer.Trade.Api.Client.Utils
+namespace Payeer.Trade.Api.Client.Utils;
+
+public static class Utilities
 {
-    public static class Utilities
+    public static HttpMethod GetHttpMethod(HttpMethods method)
     {
-        public static HttpMethod GetHttpMethod(ApiMethod method)
+        return method switch
         {
-            return method switch
-            {
-                ApiMethod.Delete => HttpMethod.Delete,
-                ApiMethod.Get => HttpMethod.Get,
-                ApiMethod.Post => HttpMethod.Post,
-                ApiMethod.Put => HttpMethod.Put,
-                _ => throw new NotImplementedException(),
-            };
-        }
+            HttpMethods.Delete => HttpMethod.Delete,
+            HttpMethods.Get => HttpMethod.Get,
+            HttpMethods.Post => HttpMethod.Post,
+            HttpMethods.Put => HttpMethod.Put,
+            _ => throw new NotImplementedException(),
+        };
     }
 }
