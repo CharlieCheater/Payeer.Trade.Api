@@ -1,5 +1,6 @@
 ﻿using Payeer.Trade.Api.Models.Public;
 using Payeer.Trade.Api.Models.Public.Limits;
+using Payeer.Trade.Api.Models.Public.Orders;
 using Payeer.Trade.Api.Models.Public.Tickers;
 using Payeer.Trade.Api.Models.Public.Trades;
 
@@ -36,7 +37,12 @@ public interface IPayeerClient
     /// <param name="pairs">List of pairs</param>
     /// <returns></returns>
     Task<PriceStatisticsResult> GetPriceStatisticsAsync(string[] pairs);
-
+    /// <summary>
+    /// Getting available orders for the specified pairs.
+    /// </summary>
+    /// <param name="pairs">List of pairs</param>
+    /// <returns></returns>
+    Task<OrdersResult> GetOrdersAsync(string[] pairs);
     /// <summary>
     /// Getting the history of transactions for the specified pairs.
     /// </summary>

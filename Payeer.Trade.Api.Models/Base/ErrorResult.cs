@@ -1,7 +1,6 @@
-﻿namespace Payeer.Trade.Api.Models.Base
+﻿namespace Payeer.Trade.Api.Models.Base;
+
+public class ErrorResult
 {
-    public class ErrorResult
-    {
-        public string Code { get; set; }
-    }
+    public string Code { get; set; }
 }

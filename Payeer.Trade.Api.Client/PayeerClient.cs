@@ -5,6 +5,7 @@ using Payeer.Trade.Api.Domain.Interfaces;
 using Payeer.Trade.Api.Models.Enums;
 using Payeer.Trade.Api.Models.Public;
 using Payeer.Trade.Api.Models.Public.Limits;
+using Payeer.Trade.Api.Models.Public.Orders;
 using Payeer.Trade.Api.Models.Public.Tickers;
 using Payeer.Trade.Api.Models.Public.Trades;
 
@@ -27,14 +28,18 @@ public class PayeerClient : PayeerClientBase, IPayeerClient
 
 
     public Task<PriceStatisticsResult> GetPriceStatisticsAsync()
-        => ApiClient.CallAsync<PriceStatisticsResult>(HttpMethods.Get, EndPoints.CheckTicker);
+        => ApiClient.CallAsync<PriceStatisticsResult>(HttpMethods.Get, EndPoints.Ticker);
 
     public Task<PriceStatisticsResult> GetPriceStatisticsAsync(string[] pairs)
-    => ApiClient.CallAsync<PriceStatisticsResult>(HttpMethods.Post, EndPoints.CheckTicker,
+    => ApiClient.CallAsync<PriceStatisticsResult>(HttpMethods.Post, EndPoints.Ticker,
+            parameters: GetPairParameters(pairs));
+
+    public Task<OrdersResult> GetOrdersAsync(string[] pairs)
+        => ApiClient.CallAsync<OrdersResult>(HttpMethods.Post, EndPoints.Orders,
             parameters: GetPairParameters(pairs));
 
     public Task<TradesResult> GetTradesAsync(string[] pairs)
-        => ApiClient.CallAsync<TradesResult>(HttpMethods.Post, EndPoints.CheckTrades,
+        => ApiClient.CallAsync<TradesResult>(HttpMethods.Post, EndPoints.Trades,
             parameters: GetPairParameters(pairs));
 
     private List<Parameter> GetPairParameters(string[]? pairs) => new() { new("pair", string.Join(",", pairs)) };

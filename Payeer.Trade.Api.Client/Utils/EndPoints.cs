@@ -11,9 +11,9 @@ namespace Payeer.Trade.Api.Client.Utils
         #region Public
         public static readonly string CheckServerTime = "time";
         public static readonly string CheckLimitsAndPairs = "info";
-        public static readonly string CheckTicker = "ticker";
-        public static readonly string CheckOrders = "orders";
-        public static readonly string CheckTrades = "trades";
+        public static readonly string Ticker = "ticker";
+        public static readonly string Orders = "orders";
+        public static readonly string Trades = "trades";
         #endregion
     }
 }

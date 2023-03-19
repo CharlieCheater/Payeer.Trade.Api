@@ -34,9 +34,9 @@ public class ApiClient : ApiClientBase, IApiClient
             request.Headers.Add(ApiHeaders.ApiSign, sign.Signature);
         }
 
-        var t = parameters.ConvertToJson();
+        var jsonParameters = parameters.ConvertToJson();
 
-        using var content = new StringContent(t, Encoding.Default, "application/json");
+        using var content = new StringContent(jsonParameters, Encoding.Default, "application/json");
         request.Content = content;
         var response = await Client.SendAsync(request);
 
