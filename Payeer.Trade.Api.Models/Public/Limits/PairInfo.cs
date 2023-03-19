@@ -1,7 +1,6 @@
-﻿using System.Text.Json.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace Payeer.Trade.Api.Models.Public;
+namespace Payeer.Trade.Api.Models.Public.Limits;
 
 public class PairInfo
 {

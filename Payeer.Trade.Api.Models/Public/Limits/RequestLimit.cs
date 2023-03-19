@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Payeer.Trade.Api.Models.Public;
+namespace Payeer.Trade.Api.Models.Public.Limits;
 
-public class Request
+public class RequestLimit
 {
     [JsonProperty("interval")]
     public string Interval { get; set; }
