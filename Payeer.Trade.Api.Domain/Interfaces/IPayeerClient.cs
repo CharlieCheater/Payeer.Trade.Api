@@ -3,6 +3,7 @@ using Payeer.Trade.Api.Models.Public.Limits;
 using Payeer.Trade.Api.Models.Public.Orders;
 using Payeer.Trade.Api.Models.Public.Tickers;
 using Payeer.Trade.Api.Models.Public.Trades;
+using Payeer.Trade.Api.Models.Signed;
 
 namespace Payeer.Trade.Api.Domain.Interfaces;
 
@@ -50,4 +51,9 @@ public interface IPayeerClient
     /// <returns></returns>
     Task<TradesResult> GetTradesAsync(string[] pairs);
     #endregion
+    /// <summary>
+    /// Getting the user's balance.
+    /// </summary>
+    /// <returns></returns>
+    Task<BalanceResult> GetBalanceAsync();
 }

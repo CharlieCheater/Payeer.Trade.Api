@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
+using Newtonsoft.Json;
 using Payeer.Trade.Api.Models.General;
 
 namespace Payeer.Trade.Api.Domain;
@@ -8,14 +8,14 @@ namespace Payeer.Trade.Api.Domain;
 public static class SignBuilder
 {
     public const int TimestampMultiplier = 1000;
-    public static long Timestamp => new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+    public static long Timestamp => new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() * TimestampMultiplier;
     public static async Task<SignatureInfo> BuildSignAsync(string apiId, string apiSecret, string apiMethod)
     {
         SignatureInfo signInfo = new()
         {
             Timestamp = Timestamp
         };
-        var jsonTimestamp = JsonSerializer.Serialize(signInfo);
+        var jsonTimestamp = JsonConvert.SerializeObject(signInfo);
 
         var data = apiMethod + jsonTimestamp;
 

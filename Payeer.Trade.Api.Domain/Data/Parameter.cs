@@ -2,11 +2,11 @@
 
 public class Parameter
 {
-    public Parameter(string name, string value)
+    public Parameter(string name, object value)
     {
         Name = name;
         Value = value;
     }
     public string Name { get; set; }
-    public string Value { get; set; }
+    public object Value { get; set; }
 }

@@ -16,7 +16,7 @@ public static class ParameterExtensions
 
         foreach (var parameter in parameters)
         {
-            json.Add(parameter.Name, parameter.Value);
+            json.Add(parameter.Name, JToken.FromObject(parameter.Value));
         }
         return JsonConvert.SerializeObject(json);
     }
