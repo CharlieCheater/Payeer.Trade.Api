@@ -27,7 +27,7 @@ public abstract class ApiClientBase
     }
 
     protected Task<SignatureInfo> GetSignAsync(string apiMethod) 
-        => SignBuilder.BuildSignAsync(ApiId, ApiSecret, apiMethod);
+        => SignBuilder.BuildSignAsync(ApiSecret, apiMethod);
     private void InitializeHttpClient()
     {
         Client.DefaultRequestHeaders.Add("Accept", "application/json");

@@ -9,7 +9,7 @@ public static class SignBuilder
 {
     public const int TimestampMultiplier = 1000;
     public static long Timestamp => new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() * TimestampMultiplier;
-    public static async Task<SignatureInfo> BuildSignAsync(string apiId, string apiSecret, string apiMethod)
+    public static async Task<SignatureInfo> BuildSignAsync(string apiSecret, string apiMethod)
     {
         SignatureInfo signInfo = new()
         {
