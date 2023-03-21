@@ -29,7 +29,7 @@ public class ApiClient : ApiClientBase, IApiClient
                 parameters = new List<Parameter>();
             }
 
-            parameters.Add(new Parameter("ts", sign.Timestamp.ToString()));
+            parameters.Add(new Parameter("ts", sign.Timestamp));
 
             request.Headers.Add(ApiHeaders.ApiSign, sign.Signature);
         }

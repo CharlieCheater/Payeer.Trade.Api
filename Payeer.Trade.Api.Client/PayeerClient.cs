@@ -8,6 +8,7 @@ using Payeer.Trade.Api.Models.Public.Limits;
 using Payeer.Trade.Api.Models.Public.Orders;
 using Payeer.Trade.Api.Models.Public.Tickers;
 using Payeer.Trade.Api.Models.Public.Trades;
+using Payeer.Trade.Api.Models.Signed;
 
 namespace Payeer.Trade.Api.Client;
 
@@ -41,6 +42,9 @@ public class PayeerClient : PayeerClientBase, IPayeerClient
     public Task<TradesResult> GetTradesAsync(string[] pairs)
         => ApiClient.CallAsync<TradesResult>(HttpMethods.Post, EndPoints.Trades,
             parameters: GetPairParameters(pairs));
+
+    public Task<BalanceResult> GetBalanceAsync()
+        => ApiClient.CallAsync<BalanceResult>(HttpMethods.Post, EndPoints.Account, true);
 
     private List<Parameter> GetPairParameters(string[]? pairs) => new() { new("pair", string.Join(",", pairs)) };
 }

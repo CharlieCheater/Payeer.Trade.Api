@@ -15,5 +15,6 @@ namespace Payeer.Trade.Api.Client.Utils
         public static readonly string Orders = "orders";
         public static readonly string Trades = "trades";
         #endregion
+        public static readonly string Account = "account";
     }
 }
