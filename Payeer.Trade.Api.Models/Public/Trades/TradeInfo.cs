@@ -1,17 +1,14 @@
 ﻿using Newtonsoft.Json;
+using Payeer.Trade.Api.Models.Base;
 using Payeer.Trade.Api.Models.Enums;
 
 namespace Payeer.Trade.Api.Models.Public.Trades;
 
-public class TradeInfo
+public class TradeInfo : ProductInfo
 {
     public int Id { get; set; }
     [JsonProperty("date")]
     public long DateTimestamp { get; set; }
     [JsonProperty("type")]
-    public TradeTypes TradeType { get; set; }
-    public double Amount { get; set; }
-    public double Price { get; set; }
-    public double Value { get; set; }
-
+    public ActionTypes ActionType { get; set; }
 }

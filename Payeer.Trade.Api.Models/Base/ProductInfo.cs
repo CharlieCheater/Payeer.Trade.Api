@@ -1,6 +1,6 @@
-﻿namespace Payeer.Trade.Api.Models.Public.Orders;
+﻿namespace Payeer.Trade.Api.Models.Base;
 
-public class OrderInfo
+public class ProductInfo
 {
     public double Amount { get; set; }
     public double Price { get; set; }

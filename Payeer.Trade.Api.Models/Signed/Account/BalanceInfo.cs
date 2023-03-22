@@ -1,4 +1,4 @@
-﻿namespace Payeer.Trade.Api.Models.Signed;
+﻿namespace Payeer.Trade.Api.Models.Signed.Account;
 
 public class BalanceInfo
 {
