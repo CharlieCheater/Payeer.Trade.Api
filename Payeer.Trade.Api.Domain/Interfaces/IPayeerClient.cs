@@ -1,9 +1,12 @@
-﻿using Payeer.Trade.Api.Models.Public;
+﻿using Payeer.Trade.Api.Models.Enums;
+using Payeer.Trade.Api.Models.Public;
 using Payeer.Trade.Api.Models.Public.Limits;
 using Payeer.Trade.Api.Models.Public.Orders;
 using Payeer.Trade.Api.Models.Public.Tickers;
 using Payeer.Trade.Api.Models.Public.Trades;
 using Payeer.Trade.Api.Models.Signed;
+using Payeer.Trade.Api.Models.Signed.Account;
+using Payeer.Trade.Api.Models.Signed.OrderCreate;
 
 namespace Payeer.Trade.Api.Domain.Interfaces;
 
@@ -43,7 +46,7 @@ public interface IPayeerClient
     /// </summary>
     /// <param name="pairs">List of pairs</param>
     /// <returns></returns>
-    Task<OrdersResult> GetOrdersAsync(string[] pairs);
+    Task<OrdersResult> GetAvailableOrdersAsync(string[] pairs);
     /// <summary>
     /// Getting the history of transactions for the specified pairs.
     /// </summary>
@@ -56,4 +59,36 @@ public interface IPayeerClient
     /// </summary>
     /// <returns></returns>
     Task<BalanceResult> GetBalanceAsync();
+
+    /// <summary>
+    /// Creating an order of Market type
+    /// It is possible to specify one of two parameters for creating a market order (amount or value)
+    /// </summary>
+    /// <param name="pair">Pair</param>
+    /// <param name="action">Action</param>
+    /// <param name="amount">Amount</param>
+    /// <param name="value">Value</param>
+    /// <returns></returns>
+    Task<OrderCreateResult> CreateMarketOrder(string pair, ActionTypes action, double? amount, double? value);
+    /// <summary>
+    /// Creating an order of Limit type
+    /// </summary>
+    /// <param name="action">Action</param>
+    /// <param name="amount">Amount</param>
+    /// <param name="price">Price</param>
+    /// <returns></returns>
+    Task<OrderCreateResult> CreateLimitOrder(string pair, ActionTypes action, double amount, double price);
+    /// <summary>
+    /// Creating an order of Stop-Limit type
+    /// </summary>
+    /// <param name="action">Action</param>
+    /// <param name="amount">Amount</param>
+    /// <param name="price">Price</param>
+    /// <param name="stopPrice">Stop price</param>
+    /// <returns></returns>
+    Task<OrderCreateResult> CreateStopLimitOrder(string pair, ActionTypes action, double amount, double price, double stopPrice);
+    Task<OrderStatusResult> GetOrderStatusAsync(int orderId);
+    Task<CancelOrderResult> CancelOrder(int id);
+    Task<CancelOrderResult> CancelOrders(string[] pairs, ActionTypes? action = null);
+    Task<CancelOrderResult> CancelAllOrders();
 }
