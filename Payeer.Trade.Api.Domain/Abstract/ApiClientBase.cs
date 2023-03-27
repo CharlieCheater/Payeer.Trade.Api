@@ -1,4 +1,5 @@
-﻿using Payeer.Trade.Api.Domain.Interfaces;
+﻿using Payeer.Trade.Api.Domain.Data;
+using Payeer.Trade.Api.Domain.Interfaces;
 using Payeer.Trade.Api.Models.General;
 
 namespace Payeer.Trade.Api.Domain.Abstract;
@@ -26,8 +27,8 @@ public abstract class ApiClientBase
         }
     }
 
-    protected Task<SignatureInfo> GetSignAsync(string apiMethod) 
-        => SignBuilder.BuildSignAsync(ApiSecret, apiMethod);
+    protected Task<SignatureInfo> GetSignAsync(string apiMethod, List<Parameter> parameters) 
+        => SignBuilder.BuildSignAsync(ApiSecret, apiMethod, parameters);
     private void InitializeHttpClient()
     {
         Client.DefaultRequestHeaders.Add("Accept", "application/json");

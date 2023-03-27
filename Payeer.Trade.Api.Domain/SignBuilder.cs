@@ -1,25 +1,26 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
+using Payeer.Trade.Api.Domain.Data;
 using Payeer.Trade.Api.Models.General;
 
 namespace Payeer.Trade.Api.Domain;
 
 public static class SignBuilder
 {
-    public const int TimestampMultiplier = 1000;
-    public static long Timestamp => new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() * TimestampMultiplier;
-    public static async Task<SignatureInfo> BuildSignAsync(string apiSecret, string apiMethod)
+    public static long Timestamp => new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+    public static async Task<SignatureInfo> BuildSignAsync(string apiSecret, string apiMethod, List<Parameter> parameters)
     {
         SignatureInfo signInfo = new()
         {
-            Timestamp = Timestamp
+            Timestamp = Timestamp,
         };
-        var jsonTimestamp = JsonConvert.SerializeObject(signInfo);
+        parameters.Add(new("ts", signInfo.Timestamp));
+        var jsonData = parameters.ConvertToJson();
 
-        var data = apiMethod + jsonTimestamp;
+        var data = apiMethod + jsonData;
 
-        signInfo.JsonTimestamp = jsonTimestamp;
+        signInfo.JsonData = jsonData;
         signInfo.Signature = await GetHmacSHA256(apiSecret, data);
 
         return signInfo;
