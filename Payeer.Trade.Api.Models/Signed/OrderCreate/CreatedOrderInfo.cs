@@ -5,7 +5,7 @@ using Payeer.Trade.Api.Models.Enums;
 namespace Payeer.Trade.Api.Models.Signed.OrderCreate;
 
 
-public class OrderInfo : ProductInfo
+public class CreatedOrderInfo : ProductInfo
 {
     public string Pair { get; set; }
     [JsonProperty("type")]
@@ -13,5 +13,5 @@ public class OrderInfo : ProductInfo
     [JsonProperty("action")]
     public ActionTypes ActionType { get; set; }
     [JsonProperty("stop_price")]
-    public double StopPrice { get; set; }
+    public double? StopPrice { get; set; }
 }

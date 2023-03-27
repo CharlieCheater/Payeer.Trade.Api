@@ -10,5 +10,5 @@ public class TradeInfo : ProductInfo
     [JsonProperty("date")]
     public long DateTimestamp { get; set; }
     [JsonProperty("type")]
-    public ActionTypes ActionType { get; set; }
+    public ActionTypes Action { get; set; }
 }
