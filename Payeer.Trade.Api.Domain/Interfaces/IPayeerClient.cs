@@ -7,6 +7,7 @@ using Payeer.Trade.Api.Models.Public.Trades;
 using Payeer.Trade.Api.Models.Signed;
 using Payeer.Trade.Api.Models.Signed.Account;
 using Payeer.Trade.Api.Models.Signed.OrderCreate;
+using Payeer.Trade.Api.Models.Signed.Trades;
 
 namespace Payeer.Trade.Api.Domain.Interfaces;
 
@@ -95,4 +96,6 @@ public interface IPayeerClient
     Task<OpenOrdersResult> GetOpenOrdersAsync(string[] pairs, ActionTypes action);
     Task<HistoryResult<OrderInfo>> GetAllHistoryOrdersAsync();
     Task<HistoryResult<OrderInfo>> GetPagedHistoryOrdersAsync(HistoryFilter? filters = null, int? appendOrder = null, int limit = 50);
+    Task<HistoryResult<PersonTradeInfo>> GetAllHistoryTradesAsync();
+    Task<HistoryResult<PersonTradeInfo>> GetPagedHistoryTradesAsync(HistoryFilter? filters = null, int? appendOrder = null, int limit = 50);
 }

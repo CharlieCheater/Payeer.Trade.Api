@@ -14,6 +14,7 @@ using Payeer.Trade.Api.Models.Signed.Account;
 using Payeer.Trade.Api.Models.Signed.OrderCreate;
 using System;
 using System.Diagnostics;
+using Payeer.Trade.Api.Models.Signed.Trades;
 
 namespace Payeer.Trade.Api.Client;
 
@@ -135,6 +136,23 @@ public class PayeerClient : PayeerClientBase, IPayeerClient
         }
         return ApiClient.CallAsync<HistoryResult<OrderInfo>>(HttpMethods.Post, EndPoints.HistoryOrders, true, parameters);
 
+    }
+
+    public Task<HistoryResult<PersonTradeInfo>> GetAllHistoryTradesAsync()
+        => ApiClient.CallAsync<HistoryResult<PersonTradeInfo>>(HttpMethods.Post, EndPoints.MyTrades, true);
+
+    public Task<HistoryResult<PersonTradeInfo>> GetPagedHistoryTradesAsync(HistoryFilter? filters = null, int? appendOrder = null, int limit = 50)
+    {
+        if (limit <= 0)
+            throw new ArgumentOutOfRangeException();
+
+        var parameters = filters != null ? GetHistoryFilterParameters(filters) : new List<Parameter>();
+        parameters.Add(new("limit", limit));
+        if (appendOrder != null)
+        {
+            parameters.Add(new("append", appendOrder));
+        }
+        return ApiClient.CallAsync<HistoryResult<PersonTradeInfo>>(HttpMethods.Post, EndPoints.MyTrades, true, parameters);
     }
 
     public List<Parameter> GetHistoryFilterParameters(HistoryFilter filters)
