@@ -15,5 +15,7 @@ public static class EndPoints
     public static readonly string CancelOrder = "order_cancel";
     public static readonly string CancelOrders = "orders_cancel";
     public static readonly string OrderStatus = "order_status";
+    public static readonly string MyOrders = "my_orders";
+    public static readonly string HistoryOrders = "my_history";
     public static readonly string MyTrades = "my_trades";
 }

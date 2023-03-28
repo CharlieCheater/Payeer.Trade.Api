@@ -9,6 +9,14 @@ namespace Payeer.Trade.Api.Client.Utils;
 
 public static class Utilities
 {
+    public static long GetUnixTimestamp(DateTime date)
+        => new DateTimeOffset(date).ToUnixTimeSeconds();
+    public static DateTime GetDateTimeFromUnix(long unixTimeStamp)
+    {
+        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        dateTime = dateTime.AddMilliseconds(unixTimeStamp).ToLocalTime();
+        return dateTime;
+    }
     public static HttpMethod GetHttpMethod(HttpMethods method)
     {
         return method switch

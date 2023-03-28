@@ -12,6 +12,7 @@ using Payeer.Trade.Api.Models.Public.Trades;
 using Payeer.Trade.Api.Models.Signed;
 using Payeer.Trade.Api.Models.Signed.Account;
 using Payeer.Trade.Api.Models.Signed.OrderCreate;
+using System;
 using System.Diagnostics;
 
 namespace Payeer.Trade.Api.Client;
@@ -50,7 +51,7 @@ public class PayeerClient : PayeerClientBase, IPayeerClient
     public Task<BalanceResult> GetBalanceAsync()
         => ApiClient.CallAsync<BalanceResult>(HttpMethods.Post, EndPoints.Account, true);
 
-    public Task<OrderCreateResult> CreateMarketOrder(string pair, ActionTypes action, double? amount, double? value)
+    public Task<OrderCreateResult> CreateMarketOrderAsync(string pair, ActionTypes action, double? amount, double? value)
     {
         if(amount == null &&  value == null)
             throw new ArgumentNullException(message:"Specify one of two parameters", null);
@@ -60,14 +61,14 @@ public class PayeerClient : PayeerClientBase, IPayeerClient
         return ApiClient.CallAsync<OrderCreateResult>(HttpMethods.Post, EndPoints.CreateOrder, true, parameters);
     }
 
-    public Task<OrderCreateResult> CreateLimitOrder(string pair, ActionTypes action, double amount, double price)
+    public Task<OrderCreateResult> CreateLimitOrderAsync(string pair, ActionTypes action, double amount, double price)
     {
         List<Parameter> parameters = GetOrderCreateParameters(pair, OrderTypes.Market, action, amount, price, null, null);
 
         return ApiClient.CallAsync<OrderCreateResult>(HttpMethods.Post, EndPoints.CreateOrder, true, parameters);
     }
 
-    public Task<OrderCreateResult> CreateStopLimitOrder(string pair, ActionTypes action, double amount, double price, double stopPrice)
+    public Task<OrderCreateResult> CreateStopLimitOrderAsync(string pair, ActionTypes action, double amount, double price, double stopPrice)
     {
         List<Parameter> parameters = GetOrderCreateParameters(pair, OrderTypes.Market, action, amount, price, stopPrice, stopPrice);
 
@@ -84,7 +85,7 @@ public class PayeerClient : PayeerClientBase, IPayeerClient
         return ApiClient.CallAsync<OrderStatusResult>(HttpMethods.Post, EndPoints.OrderStatus, true, parameters);
     }
 
-    public Task<CancelOrderResult> CancelOrder(int id)
+    public Task<CancelOrderResult> CancelOrderAsync(int id)
     {
         var parameters = new List<Parameter>
         {
@@ -93,7 +94,7 @@ public class PayeerClient : PayeerClientBase, IPayeerClient
         return ApiClient.CallAsync<CancelOrderResult>(HttpMethods.Post, EndPoints.CancelOrder, true, parameters);
     }
 
-    public Task<CancelOrderResult> CancelOrders(string[] pairs, ActionTypes? action = null)
+    public Task<CancelOrderResult> CancelOrdersAsync(string[] pairs, ActionTypes? action = null)
     {
         var parameters = GetPairParameters(pairs);
         if (action != null)
@@ -103,9 +104,55 @@ public class PayeerClient : PayeerClientBase, IPayeerClient
         return ApiClient.CallAsync<CancelOrderResult>(HttpMethods.Post, EndPoints.CancelOrders, true, parameters);
     }
 
-    public Task<CancelOrderResult> CancelAllOrders()
+    public Task<CancelOrderResult> CancelAllOrdersAsync()
         => ApiClient.CallAsync<CancelOrderResult>(HttpMethods.Post, EndPoints.CancelOrders, true);
 
+    public Task<OpenOrdersResult> GetOpenOrdersAsync()
+        => ApiClient.CallAsync<OpenOrdersResult>(HttpMethods.Post, EndPoints.MyOrders, true);
+
+
+    public Task<OpenOrdersResult> GetOpenOrdersAsync(string[] pairs, ActionTypes action)
+    {
+        var parameters = GetPairParameters(pairs);
+        parameters.Add(new("action", action));
+
+        return ApiClient.CallAsync<OpenOrdersResult>(HttpMethods.Post, EndPoints.MyOrders, true, parameters);
+    }
+
+    public Task<HistoryResult<OrderInfo>> GetAllHistoryOrdersAsync()
+        => ApiClient.CallAsync<HistoryResult<OrderInfo>>(HttpMethods.Post, EndPoints.HistoryOrders, true);
+
+    public Task<HistoryResult<OrderInfo>> GetPagedHistoryOrdersAsync(HistoryFilter? filters = null, int? appendOrder = null, int limit = 50)
+    {
+        if (limit <= 0)
+            throw new ArgumentOutOfRangeException();
+
+        var parameters = filters != null ? GetHistoryFilterParameters(filters) : new List<Parameter>();
+        parameters.Add(new("limit", limit));
+        if (appendOrder != null)
+        {
+            parameters.Add(new("append", appendOrder));
+        }
+        return ApiClient.CallAsync<HistoryResult<OrderInfo>>(HttpMethods.Post, EndPoints.HistoryOrders, true, parameters);
+
+    }
+
+    public List<Parameter> GetHistoryFilterParameters(HistoryFilter filters)
+    {
+        var parameters = GetPairParameters(filters.Pairs);
+        if(filters.Action != null)
+        {
+            parameters.Add(new("action", filters.Action));
+        }
+        parameters.Add(new("date_from", Utilities.GetUnixTimestamp(filters.From)));
+        parameters.Add(new("date_to", Utilities.GetUnixTimestamp(filters.To)));
+        if(filters.Status != null)
+        {
+            parameters.Add(new("status", filters.Status));
+        }
+
+        return parameters;
+    }
     private List<Parameter> GetOrderCreateParameters(string pair, OrderTypes type, ActionTypes action, double? amount, double? price,
         double? stopPrice, double? value)
     {
@@ -134,5 +181,6 @@ public class PayeerClient : PayeerClientBase, IPayeerClient
 
         return parameters;
     }
-    private List<Parameter> GetPairParameters(string[] pairs) => new() { new("pair", string.Join(",", pairs)) };
+    private List<Parameter> GetPairParameters(IEnumerable<string> pairs) 
+        => new() { new("pair", string.Join(",", pairs)) };
 }

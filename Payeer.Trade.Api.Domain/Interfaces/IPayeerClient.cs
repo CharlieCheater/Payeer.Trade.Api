@@ -69,7 +69,7 @@ public interface IPayeerClient
     /// <param name="amount">Amount</param>
     /// <param name="value">Value</param>
     /// <returns></returns>
-    Task<OrderCreateResult> CreateMarketOrder(string pair, ActionTypes action, double? amount, double? value);
+    Task<OrderCreateResult> CreateMarketOrderAsync(string pair, ActionTypes action, double? amount, double? value);
     /// <summary>
     /// Creating an order of Limit type
     /// </summary>
@@ -77,7 +77,7 @@ public interface IPayeerClient
     /// <param name="amount">Amount</param>
     /// <param name="price">Price</param>
     /// <returns></returns>
-    Task<OrderCreateResult> CreateLimitOrder(string pair, ActionTypes action, double amount, double price);
+    Task<OrderCreateResult> CreateLimitOrderAsync(string pair, ActionTypes action, double amount, double price);
     /// <summary>
     /// Creating an order of Stop-Limit type
     /// </summary>
@@ -86,9 +86,13 @@ public interface IPayeerClient
     /// <param name="price">Price</param>
     /// <param name="stopPrice">Stop price</param>
     /// <returns></returns>
-    Task<OrderCreateResult> CreateStopLimitOrder(string pair, ActionTypes action, double amount, double price, double stopPrice);
+    Task<OrderCreateResult> CreateStopLimitOrderAsync(string pair, ActionTypes action, double amount, double price, double stopPrice);
     Task<OrderStatusResult> GetOrderStatusAsync(int orderId);
-    Task<CancelOrderResult> CancelOrder(int id);
-    Task<CancelOrderResult> CancelOrders(string[] pairs, ActionTypes? action = null);
-    Task<CancelOrderResult> CancelAllOrders();
+    Task<CancelOrderResult> CancelOrderAsync(int id);
+    Task<CancelOrderResult> CancelOrdersAsync(string[] pairs, ActionTypes? action = null);
+    Task<CancelOrderResult> CancelAllOrdersAsync();
+    Task<OpenOrdersResult> GetOpenOrdersAsync();
+    Task<OpenOrdersResult> GetOpenOrdersAsync(string[] pairs, ActionTypes action);
+    Task<HistoryResult<OrderInfo>> GetAllHistoryOrdersAsync();
+    Task<HistoryResult<OrderInfo>> GetPagedHistoryOrdersAsync(HistoryFilter? filters = null, int? appendOrder = null, int limit = 50);
 }
