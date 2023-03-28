@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
+using Payeer.Trade.Api.Models.Base;
 using Payeer.Trade.Api.Models.Enums;
 using Payeer.Trade.Api.Models.Signed.OrderCreate;
 using Payeer.Trade.Api.Models.Signed.Trades;
 
 namespace Payeer.Trade.Api.Models.Signed;
 
-public class OrderInfo : CreatedOrderInfo
+public class OrderInfo : CreatedOrderInfo, IStored
 {
     public int Id { get; set; }
     [JsonProperty("date")]
@@ -25,5 +26,6 @@ public class OrderInfo : CreatedOrderInfo
     [JsonProperty("avg_price")]
     public double? AveragePrice { get; set; }
 
+    // The array is filled if the /order_status api is called
     public Dictionary<int, TradeStatusInfo> Trades { get; set; }
 }

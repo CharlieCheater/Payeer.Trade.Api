@@ -1,5 +1,9 @@
-﻿namespace Payeer.Trade.Api.Models.Enums;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
+namespace Payeer.Trade.Api.Models.Enums;
+
+[JsonConverter(typeof(StringEnumConverter))]
 public enum OrderStatus
 {
     None,
